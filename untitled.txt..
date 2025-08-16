@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mauryaxel - Login</title>
+</head>
+<body>
+<h1>Welcome to Mauryaxel</h1>
+
+<h2>Signup</h2>
+<input type="email" id="signupEmail" placeholder="Email">
+<input type="password" id="signupPassword" placeholder="Password">
+<button id="signupBtn">Sign Up</button>
+
+<h2>Login</h2>
+<input type="email" id="loginEmail" placeholder="Email">
+<input type="password" id="loginPassword" placeholder="Password">
+<button id="loginBtn">Login</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+// 🔹 Firebase Config डालो
+const firebaseConfig = {
+  apiKey: "तुम्हारा apiKey",
+  authDomain: "तुम्हारा authDomain",
+  projectId: "तुम्हारा projectId",
+  storageBucket: "तुम्हारा storageBucket",
+  messagingSenderId: "तुम्हारा messagingSenderId",
+  appId: "तुम्हारा appId",
+  measurementId: "तुम्हारा measurementId"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// Signup
+document.getElementById('signupBtn').addEventListener('click', async () => {
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  await createUserWithEmailAndPassword(auth, email, password);
+  alert("Signup successful!");
+});
+
+// Login
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const userCred = await signInWithEmailAndPassword(auth, email, password);
+
+  // 🔹 अगर Admin है तो admin.html पर भेजो
+  if (email === "admin@mauryaxel.com") {
+    window.location.href = "admin.html";
+  } else {
+    window.location.href = "user.html";
+  }
+});
+</script>
+</body>
+</html>
